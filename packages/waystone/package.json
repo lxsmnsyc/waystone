@@ -12,6 +12,9 @@
   "keywords": [
     "pridepack"
   ],
+  "types": "dist/types/index.d.ts",
+  "main": "dist/cjs/production/index.js",
+  "module": "dist/esm/production/index.js",
   "devDependencies": {
     "@types/node": "^18.0.0",
     "eslint": "^8.20.0",
@@ -32,20 +35,6 @@
     "dev": "pridepack dev",
     "test": "vitest"
   },
-  "private": false,
-  "description": "",
-  "repository": {
-    "url": "",
-    "type": "git"
-  },
-  "homepage": "",
-  "bugs": {
-    "url": ""
-  },
-  "author": "",
-  "publishConfig": {
-    "access": "public"
-  },
   "exports": {
     ".": {
       "development": {
@@ -63,5 +52,19 @@
         "./dist/types/index.d.ts"
       ]
     }
-  }
+  },
+  "description": "MPAs that feels like SPAs",
+  "repository": {
+    "url": "https://github.com/lxsmnsyc/waystone.git",
+    "type": "git"
+  },
+  "homepage": "https://github.com/lxsmnsyc/waystone/tree/main/packages/waystone",
+  "bugs": {
+    "url": "https://github.com/lxsmnsyc/waystone/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Alexis Munsayac",
+  "private": false
 }
