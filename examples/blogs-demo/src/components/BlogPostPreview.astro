@@ -12,10 +12,10 @@ const { title, description, publishDate, url } = Astro.props as Props;
 <article class="post-preview">
 	<header>
 		<time>{publishDate}</time>
-		<a href={url}><h1 class="title">{title}</h1></a>
+		<a href={url} ws:scroll="smooth"><h1 class="title">{title}</h1></a>
 	</header>
 	<p>{description}</p>
-	<a href={url}>Read more</a>
+	<a href={url} ws:scroll="smooth">Read more</a>
 </article>
 
 <style>

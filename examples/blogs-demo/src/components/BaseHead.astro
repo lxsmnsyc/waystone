@@ -40,3 +40,10 @@ const { title, description } = Astro.props;
 	rel="stylesheet"
 	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans:wght@400;700&display=swap"
 />
+
+<script>
+	import "waystone";
+</script>
+<script define:vars={{ title }}>
+	console.log('Visited', title);
+</script>
