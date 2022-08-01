@@ -143,7 +143,7 @@ export default function registerAnchor(
     ev.preventDefault();
 
     let scroll = el.getAttribute('ws:scroll') ?? 'auto';
-    if (targetHref.indexOf('#') > 0) {
+    if (scroll !== 'none' && targetHref.indexOf('#') > 0) {
       scroll = 'none';
     }
     voidPromise(navigate(targetHref, {
