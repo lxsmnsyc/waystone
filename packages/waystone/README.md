@@ -90,7 +90,7 @@ on('beforeunload', (event) => {
 ## Live demos
 
 - Basic Astro demo [![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat-square&logo=codesandbox)](https://codesandbox.io/s/github/LXSMNSYC/waystone/tree/main/examples/demo)
-- Astro Blog templat demo [![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat-square&logo=codesandbox)](https://codesandbox.io/s/github/LXSMNSYC/waystone/tree/main/examples/blogs-demo)
+- Astro Blog template demo [![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat-square&logo=codesandbox)](https://codesandbox.io/s/github/LXSMNSYC/waystone/tree/main/examples/blogs-demo)
 
 ## License
 
