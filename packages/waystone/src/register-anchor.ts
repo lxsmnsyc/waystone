@@ -1,4 +1,5 @@
 import morphdom from 'morphdom';
+import { onRemove } from './dom-lifecycle';
 import { PAGE } from './page-lifecycle';
 import onAnimationFrame from './strategies/on-animation-frame';
 import onDelay from './strategies/on-delay';
@@ -56,8 +57,8 @@ async function navigate(href: string, options: NavigateOptions) {
   PAGE.notify('load');
 }
 
-export function registerPopState(currentBody: HTMLElement) {
-  const currentWindow = currentBody.ownerDocument.defaultView;
+export function registerPopState() {
+  const currentWindow = document.defaultView;
 
   function onPopState() {
     voidPromise(navigate(document.location.pathname, {
@@ -158,28 +159,14 @@ export default function registerAnchor(
     cleanup?.();
   }
 
-  if (el.parentNode) {
-    const lifecycle = new MutationObserver((records) => {
-      for (const record of records) {
-        record.removedNodes.forEach((item) => {
-          if (item === el) {
-            clean();
-            lifecycle.disconnect();
-          }
-        });
-      }
-    });
-
-    lifecycle.observe(el.parentNode, { childList: true });
-
-    const unsubscribe = PAGE.on('unload', () => {
-      unsubscribe();
-      lifecycle.disconnect();
-    });
-  }
   el.addEventListener('click', onClick);
 
   const unsubscribe = PAGE.on('unload', () => {
+    clean();
+    unsubscribe();
+  });
+
+  onRemove(el, () => {
     clean();
     unsubscribe();
   });
