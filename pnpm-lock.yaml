@@ -41,10 +41,13 @@ importers:
       '@types/node': ^18.0.0
       eslint: ^8.20.0
       eslint-config-lxsmnsyc: ^0.4.7
+      morphdom: ^2.6.1
       pridepack: 2.1.2
       tslib: ^2.4.0
       typescript: ^4.7.4
       vitest: ^0.19.1
+    dependencies:
+      morphdom: 2.6.1
     devDependencies:
       '@types/node': 18.6.3
       eslint: 8.20.0
@@ -5971,6 +5974,10 @@ packages:
     resolution: {integrity: sha512-xV2bxeN6F7oYjZWTe/YPAy6MN2M+sL4u/Rlm2AHCIVGfo2p1yGmBHQ6vHehl4bRTZBdHu3TSkWdYgkwpYzAGSw==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /morphdom/2.6.1:
+    resolution: {integrity: sha512-Y8YRbAEP3eKykroIBWrjcfMw7mmwJfjhqdpSvoqinu8Y702nAwikpXcNFDiIkyvfCLxLM9Wu95RZqo4a9jFBaA==}
+    dev: false
 
   /mri/1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}

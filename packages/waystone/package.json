@@ -66,5 +66,8 @@
     "access": "public"
   },
   "author": "Alexis Munsayac",
-  "private": false
+  "private": false,
+  "dependencies": {
+    "morphdom": "^2.6.1"
+  }
 }

@@ -1,3 +1,4 @@
+import morphdom from 'morphdom';
 import { PAGE } from './page-lifecycle';
 import onAnimationFrame from './strategies/on-animation-frame';
 import onDelay from './strategies/on-delay';
@@ -24,10 +25,19 @@ async function navigate(href: string, options: NavigateOptions) {
   PAGE.notify('unload');
   const response = await fetch(href);
   const result = await response.text();
-  // Replace document
-  document.open();
-  document.write(result);
-  document.close();
+  if (document.documentElement.hasAttribute('ws:diff')) {
+    const tree = new DOMParser().parseFromString(result, 'text/html');
+    morphdom(document.documentElement, tree.documentElement, {
+      onBeforeElUpdated(fromEl, toEl) {
+        return !fromEl.isEqualNode(toEl);
+      },
+    });
+  } else {
+    // Replace document
+    document.open();
+    document.write(result);
+    document.close();
+  }
   // Update history
   if (!options.pop) {
     if (options.replace != null) {
@@ -143,13 +153,34 @@ export default function registerAnchor(
 
   const cleanup = applyPrefetchStrategies(el);
 
-  const lifecycle = new MutationObserver((records) => {
-    if (records[0].removedNodes) {
-      el.removeEventListener('click', onClick);
-      cleanup?.();
-    }
-  });
+  function clean() {
+    el.removeEventListener('click', onClick);
+    cleanup?.();
+  }
 
-  lifecycle.observe(el, { childList: true });
+  if (el.parentNode) {
+    const lifecycle = new MutationObserver((records) => {
+      for (const record of records) {
+        record.removedNodes.forEach((item) => {
+          if (item === el) {
+            clean();
+            lifecycle.disconnect();
+          }
+        });
+      }
+    });
+
+    lifecycle.observe(el.parentNode, { childList: true });
+
+    const unsubscribe = PAGE.on('unload', () => {
+      unsubscribe();
+      lifecycle.disconnect();
+    });
+  }
   el.addEventListener('click', onClick);
+
+  const unsubscribe = PAGE.on('unload', () => {
+    clean();
+    unsubscribe();
+  });
 }
