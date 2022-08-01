@@ -87,6 +87,25 @@ on('beforeunload', (event) => {
 - `unload`: This is called before the document is replaced.
 - `load`: This is called after the document is replaced.
 
+### DOM diffing
+
+**Please use with caution!**
+
+By default, waystone replaces the entire page when navigating to a new one, which means that every element from the previous page would get disposed. If you want to skip elements that are similar from the previous page (or any page), you can add `ws:diff` to your `<html>`.
+
+```html
+<html ws:diff>
+  ...
+</html>
+```
+
+`ws:diff` utilizes [`morphdom`](https://github.com/patrick-steele-idem/morphdom) and `DOMParser`.
+
+The difference, however, would be:
+
+- Scripts will no longer run on the new page.
+- `window`'s `DOMContentLoaded` and `load` events wouldn't work.
+
 ## Live demos
 
 - Basic Astro demo [![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat-square&logo=codesandbox)](https://codesandbox.io/s/github/LXSMNSYC/waystone/tree/main/examples/demo)
