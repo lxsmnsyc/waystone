@@ -2,8 +2,7 @@
 
 > MPAs that feels like SPA
 
-[![NPM](https://img.shields.io/npm/v/waystone.svg)](https://www.npmjs.com/package/waystone) [![JavaScript Style Guide](https://badgen.net/badge/code%20style/airbnb/ff5a5f?icon=airbnb)](https://github.com/airbnb/javascript) [![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat-square&logo=codesandbox)](https://codesandbox.io/s/github/LXSMNSYC/waystone/tree/main/examples/demo)
-
+[![NPM](https://img.shields.io/npm/v/waystone.svg)](https://www.npmjs.com/package/waystone) [![JavaScript Style Guide](https://badgen.net/badge/code%20style/airbnb/ff5a5f?icon=airbnb)](https://github.com/airbnb/javascript)
 ## Install
 
 ```bash
@@ -87,6 +86,11 @@ on('beforeunload', (event) => {
 
 - `unload`: This is called before the document is replaced.
 - `load`: This is called after the document is replaced.
+
+## Live demos
+
+- Basic Astro demo [![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat-square&logo=codesandbox)](https://codesandbox.io/s/github/LXSMNSYC/waystone/tree/main/examples/demo)
+- Astro Blog templat demo [![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat-square&logo=codesandbox)](https://codesandbox.io/s/github/LXSMNSYC/waystone/tree/main/examples/blogs-demo)
 
 ## License
 
