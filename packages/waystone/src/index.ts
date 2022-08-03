@@ -35,6 +35,7 @@ function load() {
 
 PAGE.on('load', load);
 
+// Defer on DOMContentLoad
 window.addEventListener('DOMContentLoaded', () => {
   PAGE.notify('load');
 });
