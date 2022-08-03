@@ -58,23 +58,19 @@ async function navigate(href: string, options: NavigateOptions) {
 }
 
 export function registerPopState() {
-  const currentWindow = document.defaultView;
-
   function onPopState() {
-    voidPromise(navigate(document.location.pathname, {
+    voidPromise(navigate(window.location.pathname, {
       pop: true,
       scroll: 'none',
     }));
   }
 
-  if (currentWindow) {
-    currentWindow.addEventListener('popstate', onPopState);
+  window.addEventListener('popstate', onPopState);
 
-    const cleanup = PAGE.on('unload', () => {
-      currentWindow.removeEventListener('popstate', onPopState);
-      cleanup();
-    });
-  }
+  const cleanup = PAGE.on('unload', () => {
+    window.removeEventListener('popstate', onPopState);
+    cleanup();
+  });
 }
 
 function isLocalUrlAbsolute(url: string): boolean {
@@ -120,54 +116,60 @@ function applyPrefetchStrategies(el: HTMLAnchorElement): (() => void) | undefine
 export default function registerAnchor(
   el: HTMLAnchorElement,
 ) {
-  function onClick(ev: MouseEvent) {
-    const targetHref = el.href;
-    // Make sure that the click is native and
-    // that the url is local
-    if (isModifiedEvent(ev) || !isLocalUrlAbsolute(targetHref)) {
-      return;
-    }
-    // Check if the element has a download attribute
-    if (el.hasAttribute('download')) {
-      return;
-    }
-    // Check if the element has rel="external"
-    if (el.getAttribute('rel')?.includes('external')) {
-      return;
-    }
-    // Check if the element has disabled routing
-    if (isAnchorDisabled(el)) {
-      return;
-    }
-
-    ev.preventDefault();
-
-    let scroll = el.getAttribute('ws:scroll') ?? 'auto';
-    if (scroll !== 'none' && targetHref.indexOf('#') > 0) {
-      scroll = 'none';
-    }
-    voidPromise(navigate(targetHref, {
-      replace: el.getAttribute('ws:replace'),
-      scroll: scroll as ScrollBehavior,
-    }));
-  }
-
   const cleanup = applyPrefetchStrategies(el);
 
-  function clean() {
-    el.removeEventListener('click', onClick);
-    cleanup?.();
+  if (cleanup) {
+    const unsubscribe = PAGE.on('unload', () => {
+      cleanup();
+      unsubscribe();
+    });
+
+    onRemove(el, () => {
+      cleanup();
+      unsubscribe();
+    });
+  }
+}
+
+function onClick(event: MouseEvent) {
+  const el = event.target;
+  if (!(el instanceof HTMLAnchorElement)) {
+    return;
+  }
+  const targetHref = el.href;
+  // Make sure that the click is native and
+  // that the url is local
+  if (isModifiedEvent(event) || !isLocalUrlAbsolute(targetHref)) {
+    return;
+  }
+  // Check if the element has a download attribute
+  if (el.hasAttribute('download')) {
+    return;
+  }
+  // Check if the element has rel="external"
+  if (el.getAttribute('rel')?.includes('external')) {
+    return;
+  }
+  // Check if the element has disabled routing
+  if (isAnchorDisabled(el)) {
+    return;
   }
 
-  el.addEventListener('click', onClick);
+  event.preventDefault();
 
-  const unsubscribe = PAGE.on('unload', () => {
-    clean();
-    unsubscribe();
-  });
-
-  onRemove(el, () => {
-    clean();
-    unsubscribe();
-  });
+  let scroll = el.getAttribute('ws:scroll') ?? 'auto';
+  if (scroll !== 'none' && targetHref.indexOf('#') > 0) {
+    scroll = 'none';
+  }
+  voidPromise(navigate(targetHref, {
+    replace: el.getAttribute('ws:replace'),
+    scroll: scroll as ScrollBehavior,
+  }));
 }
+
+PAGE.on('load', () => {
+  window.addEventListener('click', onClick);
+  PAGE.on('unload', () => {
+    window.removeEventListener('click', onClick);
+  });
+});

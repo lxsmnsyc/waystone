@@ -32,4 +32,7 @@ function load() {
 }
 
 PAGE.on('load', load);
-load();
+
+window.addEventListener('DOMContentLoaded', () => {
+  PAGE.notify('load');
+});
