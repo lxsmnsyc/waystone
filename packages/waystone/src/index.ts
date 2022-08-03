@@ -1,12 +1,16 @@
 import { onInsert, resetObserver } from './dom-lifecycle';
 import { PAGE, PageLifecycleListener, PageLifecycleType } from './page-lifecycle';
-import registerAnchor, { registerPopState } from './register-anchor';
+import registerAnchor from './register-anchor';
 
 export {
   PageLifecycleEvent,
   PageLifecycleListener,
   PageLifecycleType,
 } from './page-lifecycle';
+export {
+  onInsert,
+  onRemove,
+} from './dom-lifecycle';
 
 export function on(
   event: PageLifecycleType,
@@ -27,8 +31,6 @@ function load() {
       registerAnchor(item);
     }
   });
-
-  registerPopState();
 }
 
 PAGE.on('load', load);

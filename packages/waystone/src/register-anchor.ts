@@ -57,22 +57,6 @@ async function navigate(href: string, options: NavigateOptions) {
   PAGE.notify('load');
 }
 
-export function registerPopState() {
-  function onPopState() {
-    voidPromise(navigate(window.location.pathname, {
-      pop: true,
-      scroll: 'none',
-    }));
-  }
-
-  window.addEventListener('popstate', onPopState);
-
-  const cleanup = PAGE.on('unload', () => {
-    window.removeEventListener('popstate', onPopState);
-    cleanup();
-  });
-}
-
 function isLocalUrlAbsolute(url: string): boolean {
   return isLocalURL(url) && !url.startsWith('#');
 }
@@ -132,7 +116,10 @@ export default function registerAnchor(
 }
 
 function onClick(event: MouseEvent) {
-  const el = event.target;
+  if (!(event.target instanceof Element)) {
+    return;
+  }
+  const el = event.target.closest('a');
   if (!(el instanceof HTMLAnchorElement)) {
     return;
   }
@@ -167,9 +154,19 @@ function onClick(event: MouseEvent) {
   }));
 }
 
+function onPopState() {
+  voidPromise(navigate(window.location.pathname, {
+    pop: true,
+    scroll: 'none',
+  }));
+}
+
 PAGE.on('load', () => {
   window.addEventListener('click', onClick);
+  window.addEventListener('popstate', onPopState);
+
   PAGE.on('unload', () => {
     window.removeEventListener('click', onClick);
+    window.removeEventListener('popstate', onPopState);
   });
 });
