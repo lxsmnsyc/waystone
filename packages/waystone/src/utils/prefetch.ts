@@ -1,4 +1,3 @@
-
 // https://github.com/GoogleChromeLabs/quicklink/blob/master/src/prefetch.mjs
 function hasPrefetch(): boolean {
   const link = document.createElement('link');

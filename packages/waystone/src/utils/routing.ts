@@ -19,18 +19,10 @@ export function isLocalURL(url: string): boolean {
 }
 
 export function isModifiedEvent(event: MouseEvent): boolean {
-  const { target } = event.currentTarget as HTMLAnchorElement;
   return (
-    (target && target !== '_self')
-    || event.metaKey
+    event.metaKey
     || event.ctrlKey
     || event.shiftKey
     || event.altKey // triggers resource download
   );
-}
-
-export function normalizeURL(url: string): string {
-  const locationOrigin = getLocationOrigin();
-  const resolved = new URL(url, locationOrigin);
-  return resolved.pathname;
 }

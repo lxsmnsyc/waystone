@@ -9,9 +9,11 @@ import onLoad from './strategies/on-load';
 import onMedia from './strategies/on-media';
 import onReadyState from './strategies/on-ready-state';
 import onVisible from './strategies/on-visible';
-import isAnchorDisabled from './utils/is-anchor-disabled';
 import { isLocalURL, isModifiedEvent } from './utils/routing';
-import voidPromise from './utils/void-promise';
+
+const DISABLED = 'ws:disabled';
+const SCROLL = 'ws:scroll';
+const REPLACE = 'ws:replace';
 
 interface NavigateOptions {
   pop?: boolean;
@@ -123,6 +125,9 @@ function onClick(event: MouseEvent) {
   if (!(el instanceof HTMLAnchorElement)) {
     return;
   }
+  if (el.target && el.target !== '_self') {
+    return;
+  }
   const targetHref = el.href;
   // Make sure that the click is native and
   // that the url is local
@@ -138,27 +143,28 @@ function onClick(event: MouseEvent) {
     return;
   }
   // Check if the element has disabled routing
-  if (isAnchorDisabled(el)) {
+  if (el.hasAttribute(DISABLED)) {
     return;
   }
 
   event.preventDefault();
 
-  let scroll = el.getAttribute('ws:scroll') ?? 'auto';
+  let scroll = el.getAttribute(SCROLL) ?? 'auto';
   if (scroll !== 'none' && targetHref.indexOf('#') > 0) {
     scroll = 'none';
   }
-  voidPromise(navigate(targetHref, {
-    replace: el.getAttribute('ws:replace'),
+  // eslint-disable-next-line no-void
+  void navigate(targetHref, {
+    replace: el.getAttribute(REPLACE),
     scroll: scroll as ScrollBehavior,
-  }));
+  });
 }
 
 function onPopState() {
-  voidPromise(navigate(window.location.pathname, {
+  void navigate(window.location.pathname, {
     pop: true,
     scroll: 'none',
-  }));
+  });
 }
 
 PAGE.on('load', () => {
