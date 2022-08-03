@@ -19,7 +19,7 @@ importers:
       '@astrojs/preact': ^0.5.2
       astro: ^1.0.0-rc.3
       preact: ^10.7.3
-      waystone: 0.1.0
+      waystone: 0.2.1
     dependencies:
       preact: 10.10.0
       waystone: link:../../packages/waystone
@@ -30,7 +30,7 @@ importers:
   examples/demo:
     specifiers:
       astro: ^1.0.0-rc.3
-      waystone: 0.1.0
+      waystone: 0.2.1
     dependencies:
       waystone: link:../../packages/waystone
     devDependencies:
@@ -42,7 +42,7 @@ importers:
       eslint: ^8.20.0
       eslint-config-lxsmnsyc: ^0.4.7
       morphdom: ^2.6.1
-      pridepack: 2.1.2
+      pridepack: 2.2.1
       tslib: ^2.4.0
       typescript: ^4.7.4
       vitest: ^0.19.1
@@ -52,7 +52,7 @@ importers:
       '@types/node': 18.6.3
       eslint: 8.20.0
       eslint-config-lxsmnsyc: 0.4.8_he2ccbldppg44uulnyq4rwocfa
-      pridepack: 2.1.2_twwhathbhz5n5ottqxikv5qsre
+      pridepack: 2.2.1_twwhathbhz5n5ottqxikv5qsre
       tslib: 2.4.0
       typescript: 4.7.4
       vitest: 0.19.1
@@ -6827,9 +6827,9 @@ packages:
     resolution: {integrity: sha512-WuxUnVtlWL1OfZFQFuqvnvs6MiAGk9UNsBostyBOB0Is9wb5uRESevA6rnl/rkksXaGX3GzZhPup5d6Vp1nFew==}
     dev: true
 
-  /pridepack/2.1.2_twwhathbhz5n5ottqxikv5qsre:
-    resolution: {integrity: sha512-sLB8aR0mMTYfcX4xtksWwa3isN9khrD1H872HuCNUGbel8kqcY6PxBBM8WLEv8rvbhRyuOmqXxitDQfz5Nm4hA==}
-    engines: {node: '>=10'}
+  /pridepack/2.2.1_twwhathbhz5n5ottqxikv5qsre:
+    resolution: {integrity: sha512-KKCAc7rOfHrEC1Xf+CUu+TS3HiSxVXkq8JyRDEYK6dDjdSknXzo0Nks5tBJjwQcM714Hs8ljLufSPez5I7GH+A==}
+    engines: {node: '>=12.12.0'}
     hasBin: true
     peerDependencies:
       eslint: ^8.0

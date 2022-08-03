@@ -12,14 +12,14 @@
   "keywords": [
     "pridepack"
   ],
-  "types": "dist/types/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "main": "dist/cjs/production/index.js",
   "module": "dist/esm/production/index.js",
   "devDependencies": {
     "@types/node": "^18.0.0",
     "eslint": "^8.20.0",
     "eslint-config-lxsmnsyc": "^0.4.7",
-    "pridepack": "2.1.2",
+    "pridepack": "2.2.1",
     "tslib": "^2.4.0",
     "typescript": "^4.7.4",
     "vitest": "^0.19.1"
@@ -47,11 +47,7 @@
     }
   },
   "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/types/index.d.ts"
-      ]
-    }
+    "*": {}
   },
   "description": "MPAs that feels like SPAs",
   "repository": {
