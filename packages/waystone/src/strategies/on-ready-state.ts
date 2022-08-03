@@ -1,12 +1,11 @@
 import prefetch from '../utils/prefetch';
-import voidPromise from '../utils/void-promise';
 
 export default function onReadyState(
   el: HTMLAnchorElement,
   readyState: DocumentReadyState,
 ): undefined | (() => void) {
   function callback() {
-    voidPromise(prefetch(el.href));
+    void prefetch(el.href);
   }
   const cb = () => {
     switch (readyState) {

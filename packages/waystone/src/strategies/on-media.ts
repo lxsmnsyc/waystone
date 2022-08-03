@@ -1,5 +1,4 @@
 import prefetch from '../utils/prefetch';
-import voidPromise from '../utils/void-promise';
 
 export default function onMedia(
   el: HTMLAnchorElement,
@@ -8,7 +7,7 @@ export default function onMedia(
   const media = window.matchMedia(query);
 
   function callback() {
-    voidPromise(prefetch(el.href));
+    void prefetch(el.href);
   }
 
   const onMediaCallback = () => {

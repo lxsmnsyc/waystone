@@ -1,5 +1,4 @@
 import prefetch from '../utils/prefetch';
-import voidPromise from '../utils/void-promise';
 
 export default function onVisible(
   el: HTMLAnchorElement,
@@ -8,7 +7,7 @@ export default function onVisible(
     // eslint-disable-next-line no-restricted-syntax
     for (const entry of entries) {
       if ((entry.isIntersecting || entry.intersectionRatio > 0)) {
-        voidPromise(prefetch(el.href));
+        void prefetch(el.href);
         observer.disconnect();
         break;
       }
