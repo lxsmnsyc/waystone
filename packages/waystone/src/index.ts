@@ -1,23 +1,17 @@
 import { onInsert, resetObserver } from './dom-lifecycle';
-import { PAGE, PageLifecycleListener, PageLifecycleType } from './page-lifecycle';
-import registerAnchor from './register-anchor';
+import { notify, on } from './page-lifecycle';
+import { registerAnchor, setupEvents } from './register-anchor';
 
 export {
   PageLifecycleEvent,
   PageLifecycleListener,
   PageLifecycleType,
+  on,
 } from './page-lifecycle';
 export {
   onInsert,
   onRemove,
 } from './dom-lifecycle';
-
-export function on(
-  event: PageLifecycleType,
-  callback: PageLifecycleListener,
-): () => void {
-  return PAGE.on(event, callback);
-}
 
 function load() {
   resetObserver();
@@ -33,9 +27,11 @@ function load() {
   });
 }
 
-PAGE.on('load', load);
+setupEvents();
+
+on('load', load);
 
 // Defer on DOMContentLoad
 window.addEventListener('DOMContentLoaded', () => {
-  PAGE.notify('load');
+  notify('load');
 });

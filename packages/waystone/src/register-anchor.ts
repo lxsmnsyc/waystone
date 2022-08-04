@@ -1,6 +1,6 @@
 import morphdom from 'morphdom';
 import { onRemove } from './dom-lifecycle';
-import { PAGE } from './page-lifecycle';
+import { notify, on } from './page-lifecycle';
 import onAnimationFrame from './strategies/on-animation-frame';
 import onDelay from './strategies/on-delay';
 import onIdle from './strategies/on-idle';
@@ -22,10 +22,10 @@ interface NavigateOptions {
 }
 
 async function navigate(href: string, options: NavigateOptions) {
-  if (PAGE.notify('beforeunload')) {
+  if (notify('beforeunload')) {
     return;
   }
-  PAGE.notify('unload');
+  notify('unload');
   const response = await fetch(href);
   const result = await response.text();
   if (document.documentElement.hasAttribute('ws:diff')) {
@@ -56,7 +56,7 @@ async function navigate(href: string, options: NavigateOptions) {
       behavior: options.scroll,
     });
   }
-  PAGE.notify('load');
+  notify('load');
 }
 
 function isLocalUrlAbsolute(url: string): boolean {
@@ -99,13 +99,13 @@ function applyPrefetchStrategies(el: HTMLAnchorElement): (() => void) | undefine
   return undefined;
 }
 
-export default function registerAnchor(
+export function registerAnchor(
   el: HTMLAnchorElement,
 ) {
   const cleanup = applyPrefetchStrategies(el);
 
   if (cleanup) {
-    const unsubscribe = PAGE.on('unload', () => {
+    const unsubscribe = on('unload', () => {
       cleanup();
       unsubscribe();
     });
@@ -167,12 +167,14 @@ function onPopState() {
   });
 }
 
-PAGE.on('load', () => {
-  window.addEventListener('click', onClick);
-  window.addEventListener('popstate', onPopState);
+export function setupEvents() {
+  on('load', () => {
+    window.addEventListener('click', onClick);
+    window.addEventListener('popstate', onPopState);
+  });
 
-  PAGE.on('unload', () => {
+  on('unload', () => {
     window.removeEventListener('click', onClick);
     window.removeEventListener('popstate', onPopState);
   });
-});
+}
